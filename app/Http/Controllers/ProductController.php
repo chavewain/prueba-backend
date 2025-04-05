@@ -5,18 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Resources\ProductResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 class ProductController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function index(Request $request): AnonymousResourceCollection
     {
-        $products = Product::with('prices.currency')->paginate(10);
-        return response()->json(ProductResource::collection($products));
+        $products = Product::with('prices.currency')->paginate(20);
+        return ProductResource::collection($products); 
     }
-
     public function store(ProductStoreRequest $request): JsonResponse
     {
         $product = Product::create($request->validated());
