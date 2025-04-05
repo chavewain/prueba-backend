@@ -1,0 +1,26 @@
+models:
+  Product:
+    name: string
+    description: text
+    manufacturing_cost: decimal:10,2
+
+  Currency:
+    name: string
+    symbol: string
+    exchange_rate: decimal:10,4
+
+  ProductPrice:
+    product_id: id foreign:products
+    currency_id: id foreign:currencies
+    price: decimal:10,2
+    tax_cost: decimal:10,2
+
+controllers:
+  Product:
+    resource
+
+  Currency:
+    resource
+
+  ProductPrice:
+    resource
