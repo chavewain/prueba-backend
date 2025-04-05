@@ -1,28 +1,38 @@
 <?php
 
+<?php
+
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
-class CurrencyStoreRequest extends FormRequest
+class ProductStoreRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     */
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string'],
-            'symbol' => ['required', 'string'],
-            'exchange_rate' => ['required', 'numeric', 'between:-999999.9999,999999.9999'],
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'manufacturing_cost' => 'required|numeric|min:0',
         ];
+    }
+
+    /**
+     * Personaliza la respuesta de error cuando la validación falla.
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success' => false,
+            'message' => 'Errores de validación detectados',
+            'errors' => $validator->errors(),
+        ], 422));
     }
 }

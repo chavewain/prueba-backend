@@ -3,29 +3,36 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ProductStoreRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     */
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string'],
-            'description' => ['required', 'string'],
-            'price' => ['required', 'numeric', 'between:-99999999.99,99999999.99'],
-            'currency_id' => ['required', 'integer', 'exists:currencies,id'],
-            'tax_cost' => ['required', 'numeric', 'between:-99999999.99,99999999.99'],
-            'manufacturing_cost' => ['required', 'numeric', 'between:-99999999.99,99999999.99'],
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'manufacturing_cost' => 'required|numeric|min:0',
+
+            'prices' => 'nullable|array',
+            'prices.*.price' => 'required_with:prices|numeric|min:0',
+            'prices.*.tax_cost' => 'required_with:prices|numeric|min:0',
+            'prices.*.currency_id' => 'required_with:prices|exists:currencies,id',
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success' => false,
+            'message' => 'Errores de validación detectados',
+            'errors' => $validator->errors(),
+        ], 422));
     }
 }

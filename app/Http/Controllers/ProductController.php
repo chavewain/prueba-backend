@@ -9,6 +9,7 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Arr;
 
 class ProductController extends Controller
 {
@@ -19,8 +20,22 @@ class ProductController extends Controller
     }
     public function store(ProductStoreRequest $request): JsonResponse
     {
-        $product = Product::create($request->validated());
-        return response()->json(new ProductResource($product->load('prices.currency')), 201);
+        $data = $request->validated();
+
+        $product = Product::create(
+            Arr::only($data, ['name', 'description', 'manufacturing_cost'])
+        );
+
+        if (!empty($data['prices'])) {
+            foreach ($data['prices'] as $price) {
+                $product->prices()->create($price);
+            }
+        }
+
+        return response()->json(
+            new ProductResource($product->load('prices.currency')),
+            201
+        );
     }
 
     public function show(Request $request, Product $product): JsonResponse
@@ -30,9 +45,27 @@ class ProductController extends Controller
 
     public function update(ProductUpdateRequest $request, Product $product): JsonResponse
     {
-        $product->update($request->validated());
-        return response()->json(new ProductResource($product->load('prices.currency')));
+        $data = $request->validated();
+
+        // Actualizar solo los campos del producto
+        $product->update(
+            Arr::only($data, ['name', 'description', 'manufacturing_cost'])
+        );
+
+        // Si se envían nuevos precios, eliminamos los anteriores y los reinsertamos
+        if (!empty($data['prices'])) {
+            $product->prices()->delete();
+
+            foreach ($data['prices'] as $price) {
+                $product->prices()->create($price);
+            }
+        }
+
+        return response()->json(
+            new ProductResource($product->load('prices.currency'))
+        );
     }
+
 
     public function destroy(Request $request, Product $product): JsonResponse
     {
