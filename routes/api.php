@@ -8,4 +8,6 @@ use App\Http\Controllers\ProductPriceController;
 
 Route::apiResource('products', ProductController::class);
 Route::apiResource('currencies', CurrencyController::class);
-Route::apiResource('product-prices', ProductPriceController::class);
+
+Route::get('/products/{product}/prices', [ProductPriceController::class, 'index']);
+Route::post('/products/{product}/prices', [ProductPriceController::class, 'store']);
