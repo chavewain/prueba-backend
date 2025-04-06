@@ -20,9 +20,9 @@ class ProductPriceStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_id' => ['required', 'integer', 'exists:products,id'],
-            'currency_id' => ['required', 'integer', 'exists:currencies,id'],
-            'price' => ['required', 'numeric', 'between:-99999999.99,99999999.99'],
+            'price' => 'required|numeric|min:0',
+            'tax_cost' => 'required|numeric|min:0',
+            'currency_id' => 'required|exists:currencies,id',
         ];
     }
 }

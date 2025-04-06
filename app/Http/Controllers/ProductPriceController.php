@@ -30,18 +30,20 @@ class ProductPriceController extends Controller
         ]);
     }
 
-    public function create(Request $request): View
+    public function store(ProductPriceStoreRequest $request, $productId)
     {
-        return view('productPrice.create');
-    }
+        $product = Product::find($productId);
 
-    public function store(ProductPriceStoreRequest $request): RedirectResponse
-    {
-        $productPrice = ProductPrice::create($request->validated());
+        if (!$product) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Producto no encontrado.'
+            ], 404);
+        }
 
-        $request->session()->flash('productPrice.id', $productPrice->id);
+        $price = $product->prices()->create($request->validated());
 
-        return redirect()->route('productPrices.index');
+        return response()->json(new ProductPriceResource($price->load('currency')), 201);
     }
 
     public function show(Request $request, ProductPrice $productPrice): View
