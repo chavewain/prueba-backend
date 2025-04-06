@@ -1,0 +1,29 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Swagger with Laravel",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/products": {
+            "get": {
+                "summary": "Obtener todos los productos",
+                "operationId": "1bfaa78d1c2c3848ab8165c5dadcad3e",
+                "responses": {
+                    "200": {
+                        "description": "Lista de productos"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}

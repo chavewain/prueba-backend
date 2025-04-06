@@ -13,6 +13,14 @@ use Illuminate\Support\Arr;
 
 class ProductController extends Controller
 {
+    
+    /**
+     * @OA\Get(
+     *     path="/api/products",
+     *     summary="Obtener todos los productos",
+     *     @OA\Response(response="200", description="Lista de productos")
+     * )
+     */
     public function index(Request $request): AnonymousResourceCollection
     {
         $products = Product::with('prices.currency')->paginate(20);
