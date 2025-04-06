@@ -1,14 +1,12 @@
 <?php
 
-<?php
-
 namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class ProductStoreRequest extends FormRequest
+class CurrencyStoreRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -19,8 +17,8 @@ class ProductStoreRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'manufacturing_cost' => 'required|numeric|min:0',
+            'symbol' => 'required|string',
+            'exchange_rate' => 'required|numeric|min:0',
         ];
     }
 
