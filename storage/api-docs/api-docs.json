@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Swagger with Laravel",
+        "title": "Prueba Backend",
         "version": "1.0.0"
     },
     "paths": {

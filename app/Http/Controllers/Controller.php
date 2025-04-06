@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 /**
      * @OA\Info(
-     *    title="Swagger with Laravel",
+     *    title="Prueba Backend",
      *    version="1.0.0",
      * )
      * @OA\SecurityScheme(
