@@ -3,6 +3,9 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Http\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -12,8 +15,15 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // Puedes registrar middlewares aquí si los necesitas
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
-    })->create();
+        // Manejo global de modelos no encontrados
+        $exceptions->render(function (NotFoundHttpException $e, Request $request) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Recurso no encontrado.'
+            ], 404);
+        });
+    })
+    ->create();
