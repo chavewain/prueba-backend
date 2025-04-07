@@ -169,7 +169,7 @@ php artisan migrate --seed
 
 Desarrollado por **Dionisio Chávez**  
 📧 dionisio.chavez@gmail.com  
-🔗 [linkedin.com/in/chavewain](https://linkedin.com/in/chavewain)
+🔗 [linkedin.com/in/dionisiochavez](https://www.linkedin.com/in/dionisiochavez/)
 
 ---
 
