@@ -262,7 +262,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Product"
+                                "$ref": "#/components/schemas/ProductRequest"
                             }
                         }
                     }
@@ -347,7 +347,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Product"
+                                "$ref": "#/components/schemas/ProductRequest"
                             }
                         }
                     }
@@ -734,6 +734,57 @@
                         "type": "string",
                         "format": "date-time",
                         "example": "2024-04-05T12:30:00Z"
+                    }
+                },
+                "type": "object"
+            },
+            "ProductRequest": {
+                "required": [
+                    "name",
+                    "description",
+                    "manufacturing_cost",
+                    "prices"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Producto nuevo"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Una descripción del producto"
+                    },
+                    "manufacturing_cost": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 200.5
+                    },
+                    "prices": {
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "price",
+                                "tax_cost",
+                                "currency_id"
+                            ],
+                            "properties": {
+                                "price": {
+                                    "type": "number",
+                                    "format": "float",
+                                    "example": 150
+                                },
+                                "tax_cost": {
+                                    "type": "number",
+                                    "format": "float",
+                                    "example": 20
+                                },
+                                "currency_id": {
+                                    "type": "integer",
+                                    "example": 1
+                                }
+                            },
+                            "type": "object"
+                        }
                     }
                 },
                 "type": "object"

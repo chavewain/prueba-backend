@@ -57,7 +57,7 @@ class ProductController extends Controller
      *         required=true,
      *         @OA\MediaType(
      *             mediaType="application/json",
-     *             @OA\Schema(ref="#/components/schemas/Product")
+     *             @OA\Schema(ref="#/components/schemas/ProductRequest")
      *         )
      *     ),
      *     @OA\Response(
@@ -133,7 +133,7 @@ class ProductController extends Controller
      *         required=true,
      *         @OA\MediaType(
      *             mediaType="application/json",
-     *             @OA\Schema(ref="#/components/schemas/Product")
+     *             @OA\Schema(ref="#/components/schemas/ProductRequest")
      *         )
      *     ),
      *     @OA\Response(
