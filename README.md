@@ -165,7 +165,7 @@ php artisan migrate --seed
 
 ## 👤 Autor
 
-Desarrollado por **David Chávez**  
+Desarrollado por **Dionisio Chávez**  
 📧 dionisio.chavez@gmail.com  
 🔗 [linkedin.com/in/chavewain](https://linkedin.com/in/chavewain)
 
