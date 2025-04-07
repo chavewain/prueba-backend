@@ -1,6 +1,8 @@
-# 📦 Laravel API Backend
+# 📦 Laravel API | Prueba Backend | ciph3r.co
 
 Este proyecto es una API RESTful construida con Laravel 12, con autenticación mediante Sanctum, documentación Swagger (L5 Swagger), y arquitectura moderna basada en Form Requests, Resources, Seeders y controladores RESTful.
+
+> Desarrollado como práctica de contratación para la empresa **Ciph3r.co**. Me tomé la libertad de cambiar la estructura a **tres modelos en lugar de dos**, con el objetivo de hacer el sistema más mantenible y flexible a largo plazo.
 
 ---
 
