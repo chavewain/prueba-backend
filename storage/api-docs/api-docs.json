@@ -1,7 +1,8 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Prueba Backend",
+        "title": "API de Autenticación",
+        "description": "Documentación para la API con autenticación mediante Sanctum y Swagger",
         "version": "1.0.0"
     },
     "paths": {
@@ -35,7 +36,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -48,36 +54,28 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "name",
-                                    "symbol",
-                                    "exchange_rate"
-                                ],
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "example": "USD"
-                                    },
-                                    "symbol": {
-                                        "type": "string",
-                                        "example": "$"
-                                    },
-                                    "exchange_rate": {
-                                        "type": "number",
-                                        "format": "float",
-                                        "example": 1
-                                    }
-                                },
-                                "type": "object"
+                                "$ref": "#/components/schemas/Currency"
                             }
                         }
                     }
                 },
                 "responses": {
                     "201": {
-                        "description": "Moneda creada exitosamente"
+                        "description": "Moneda creada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Currency"
+                                }
+                            }
+                        }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/currencies/{id}": {
@@ -94,8 +92,7 @@
                         "description": "ID de la moneda",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "integer"
                         }
                     }
                 ],
@@ -105,63 +102,34 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        },
-                                        "data": {
-                                            "$ref": "#/components/schemas/Currency"
-                                        }
-                                    },
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/Currency"
                                 }
                             }
                         }
                     },
                     "404": {
                         "description": "Moneda no encontrada"
-                    },
-                    "422": {
-                        "description": "Errores de validación",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": false
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Errores de validación"
-                                        },
-                                        "errors": {
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
                     "Monedas"
                 ],
-                "summary": "Actualizar una moneda existente",
+                "summary": "Actualizar una moneda",
                 "operationId": "8a397517013e49ac5bf2db204caaa130",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID de la moneda",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "integer"
                         }
                     }
                 ],
@@ -170,34 +138,28 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "example": "Dólar actualizado"
-                                    },
-                                    "symbol": {
-                                        "type": "string",
-                                        "example": "$"
-                                    },
-                                    "exchange_rate": {
-                                        "type": "number",
-                                        "format": "float",
-                                        "example": 1.05
-                                    }
-                                },
-                                "type": "object"
+                                "$ref": "#/components/schemas/Currency"
                             }
                         }
                     }
                 },
                 "responses": {
                     "200": {
-                        "description": "Moneda actualizada correctamente"
-                    },
-                    "404": {
-                        "description": "Moneda no encontrada"
+                        "description": "Moneda actualizada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Currency"
+                                }
+                            }
+                        }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -209,22 +171,39 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID de la moneda a eliminar",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "integer"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Moneda eliminada correctamente"
-                    },
-                    "404": {
-                        "description": "Moneda no encontrada"
+                        "description": "Moneda eliminada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Moneda eliminada correctamente."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/products": {
@@ -236,9 +215,41 @@
                 "operationId": "1bfaa78d1c2c3848ab8165c5dadcad3e",
                 "responses": {
                     "200": {
-                        "description": "Lista de productos"
+                        "description": "Lista de productos paginada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Product"
+                                            }
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 100
+                                        },
+                                        "per_page": {
+                                            "type": "integer",
+                                            "example": 20
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -258,7 +269,7 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Product created successfully",
+                        "description": "Producto creado correctamente",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -267,7 +278,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/products/{id}": {
@@ -284,8 +300,7 @@
                         "description": "ID del producto",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "integer"
                         }
                     }
                 ],
@@ -301,32 +316,20 @@
                         }
                     },
                     "404": {
-                        "description": "Producto no encontrado",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": false
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Producto no encontrado."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Producto no encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
                     "Productos"
                 ],
-                "summary": "Actualizar un producto existente y sus precios",
+                "summary": "Actualizar un producto existente",
                 "operationId": "6a7e11900844cd85cff66e662b82bd4c",
                 "parameters": [
                     {
@@ -335,8 +338,7 @@
                         "description": "ID del producto",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "integer"
                         }
                     }
                 ],
@@ -345,44 +347,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "example": "Nuevo nombre del producto"
-                                    },
-                                    "description": {
-                                        "type": "string",
-                                        "example": "Descripción actualizada"
-                                    },
-                                    "manufacturing_cost": {
-                                        "type": "number",
-                                        "format": "float",
-                                        "example": 200
-                                    },
-                                    "prices": {
-                                        "type": "array",
-                                        "items": {
-                                            "properties": {
-                                                "price": {
-                                                    "type": "number",
-                                                    "format": "float",
-                                                    "example": 250
-                                                },
-                                                "tax_cost": {
-                                                    "type": "number",
-                                                    "format": "float",
-                                                    "example": 25
-                                                },
-                                                "currency_id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    }
-                                },
-                                "type": "object"
+                                "$ref": "#/components/schemas/Product"
                             }
                         }
                     }
@@ -397,67 +362,28 @@
                                 }
                             }
                         }
-                    },
-                    "404": {
-                        "description": "Producto no encontrado",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": false
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Producto no encontrado."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Errores de validación",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": false
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Errores de validación detectados."
-                                        },
-                                        "errors": {
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
                     "Productos"
                 ],
-                "summary": "Eliminar un producto por su ID",
+                "summary": "Eliminar un producto",
                 "operationId": "e80a6ca46716acee6b47ea1ac91663c0",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID del producto a eliminar",
+                        "description": "ID del producto",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "example": 1
+                            "type": "integer"
                         }
                     }
                 ],
@@ -483,26 +409,14 @@
                         }
                     },
                     "404": {
-                        "description": "Producto no encontrado",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": false
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Producto no encontrado."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Producto no encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/products/{productId}/prices": {
@@ -550,7 +464,12 @@
                     "404": {
                         "description": "Producto no encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -615,6 +534,105 @@
                     "404": {
                         "description": "Producto no encontrado"
                     }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Iniciar sesión y obtener token de acceso",
+                "operationId": "ad9336e17001ad22e7e430c3f7827a54",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "test@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login exitoso. Retorna el token de acceso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|abcDEF123456..."
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "admin@demo.com"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Credenciales incorrectas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Credenciales incorrectas."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -624,7 +642,6 @@
             "Currency": {
                 "title": "Moneda",
                 "required": [
-                    "id",
                     "name",
                     "symbol",
                     "exchange_rate"
@@ -656,54 +673,6 @@
                         "type": "string",
                         "format": "date-time",
                         "example": "2024-01-02T15:30:00Z"
-                    }
-                },
-                "type": "object"
-            },
-            "Product": {
-                "required": [
-                    "name",
-                    "description",
-                    "manufacturing_cost",
-                    "prices"
-                ],
-                "properties": {
-                    "name": {
-                        "type": "string"
-                    },
-                    "description": {
-                        "type": "string"
-                    },
-                    "manufacturing_cost": {
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "prices": {
-                        "type": "array",
-                        "items": {
-                            "required": [
-                                "price",
-                                "tax_cost",
-                                "currency_id"
-                            ],
-                            "properties": {
-                                "price": {
-                                    "type": "number",
-                                    "format": "float",
-                                    "example": 150
-                                },
-                                "tax_cost": {
-                                    "type": "number",
-                                    "format": "float",
-                                    "example": 20
-                                },
-                                "currency_id": {
-                                    "type": "integer",
-                                    "example": 1
-                                }
-                            },
-                            "type": "object"
-                        }
                     }
                 },
                 "type": "object"
@@ -768,6 +737,72 @@
                     }
                 },
                 "type": "object"
+            },
+            "Product": {
+                "title": "Producto",
+                "required": [
+                    "name",
+                    "description",
+                    "manufacturing_cost",
+                    "prices"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Producto A"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Descripción del producto A"
+                    },
+                    "manufacturing_cost": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 150
+                    },
+                    "prices": {
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "price",
+                                "tax_cost",
+                                "currency_id"
+                            ],
+                            "properties": {
+                                "price": {
+                                    "type": "number",
+                                    "format": "float",
+                                    "example": 200
+                                },
+                                "tax_cost": {
+                                    "type": "number",
+                                    "format": "float",
+                                    "example": 20
+                                },
+                                "currency_id": {
+                                    "type": "integer",
+                                    "example": 1
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T12:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-01-01T12:00:00Z"
+                    }
+                },
+                "type": "object"
             }
         },
         "securitySchemes": {
@@ -781,15 +816,19 @@
     "tags": [
         {
             "name": "Monedas",
-            "description": "Monedas"
+            "description": "Operaciones relacionadas con monedas"
         },
         {
             "name": "Productos",
-            "description": "Productos"
+            "description": "Operaciones relacionadas con productos"
         },
         {
             "name": "Precios",
-            "description": "Precios"
+            "description": "Gestión de precios para productos"
+        },
+        {
+            "name": "Autenticación",
+            "description": "Autenticación"
         }
     ]
 }

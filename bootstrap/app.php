@@ -18,7 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         // Middleware para proteger APIs con Sanctum
         $middleware->api([
-            EnsureFrontendRequestsAreStateful::class, // <-- importante para Sanctum
+            // EnsureFrontendRequestsAreStateful::class, 
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ]);
     })
