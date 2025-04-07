@@ -1,66 +1,176 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📦 Laravel API Backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este proyecto es una API RESTful construida con Laravel 12, con autenticación mediante Sanctum, documentación Swagger (L5 Swagger), y arquitectura moderna basada en Form Requests, Resources, Seeders y controladores RESTful.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Requisitos
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- PHP >= 8.2
+- Composer
+- MySQL o PostgreSQL
+- Node.js (solo si usas frontend integrado)
+- Laravel CLI (`composer global require laravel/installer`)
+- (Opcional) Docker & Laradock
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## ⚙️ Instalación
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```bash
+# Clonar el repositorio
+git clone https://github.com/chavewain/prueba-backend.git
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+cd pruebabackend
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# Instalar dependencias
+composer install
 
-## Laravel Sponsors
+# Copiar archivo de entorno
+cp .env.example .env
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+# Generar clave de aplicación
+php artisan key:generate
 
-### Premium Partners
+# Crear base de datos y configurar credenciales en .env
+# DB_DATABASE, DB_USERNAME, DB_PASSWORD
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+---
 
-## Contributing
+## 🛠️ Publicar archivos necesarios
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Este proyecto usa **Sanctum** para autenticación y **L5 Swagger** para documentación. Es necesario publicar sus archivos:
 
-## Code of Conduct
+```bash
+# Publicar configuración de Sanctum
+php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# Publicar configuración de L5 Swagger
+php artisan vendor:publish --provider="L5Swagger\L5SwaggerServiceProvider"
+```
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 🔄 Ejecutar migraciones y seeders
 
-## License
+```bash
+php artisan migrate --seed
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## 🔑 Autenticación
+
+Este proyecto usa **Laravel Sanctum** para proteger rutas de API.
+
+### 🟢 Iniciar sesión
+
+```http
+POST /api/login
+Content-Type: application/json
+
+{
+  "email": "admin@demo.com",
+  "password": "password"
+}
+```
+
+### 🔐 Usar token
+
+En las peticiones protegidas debes agregar el encabezado:
+
+```
+Authorization: Bearer TU_TOKEN
+```
+
+---
+
+## 📘 Documentación Swagger
+
+```bash
+php artisan l5-swagger:generate
+```
+
+Accede desde el navegador en:
+
+[http://localhost:8000/api/documentation](http://localhost:8000/api/documentation)
+
+---
+
+## ⚙️ Deploy en producción
+
+1. Subir el proyecto al servidor
+2. Instalar dependencias:
+
+```bash
+composer install --optimize-autoloader --no-dev
+```
+
+3. Configurar variables de entorno `.env`:
+
+```dotenv
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://tudominio.com
+```
+
+4. Permisos:
+
+```bash
+chown -R www-data:www-data storage bootstrap/cache
+chmod -R 775 storage bootstrap/cache
+```
+
+5. Ejecutar migraciones:
+
+```bash
+php artisan migrate --force
+```
+
+6. Cache de configuración:
+
+```bash
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+```
+
+---
+
+## 🐳 Usar con Docker + Laradock
+
+1. Clona Laradock al mismo nivel del proyecto
+2. Copia y configura `.env` y `.env.laradock`
+3. Levanta los servicios necesarios:
+
+```bash
+docker-compose up -d nginx mysql workspace
+```
+
+4. Ingresa al contenedor workspace:
+
+```bash
+docker-compose exec workspace bash
+```
+
+5. Dentro del contenedor:
+
+```bash
+composer install
+php artisan migrate --seed
+```
+
+---
+
+## 👤 Autor
+
+Desarrollado por **David Chávez**  
+📧 dionisio.chavez@gmail.com  
+🔗 [linkedin.com/in/chavewain](https://linkedin.com/in/chavewain)
+
+---
+
+## 📄 Licencia
+
+Este proyecto está bajo la licencia MIT.
