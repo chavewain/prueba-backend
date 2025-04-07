@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "API de Autenticación",
+        "title": "API Prueba Backend | ciph3r.co",
         "description": "Documentación para la API con autenticación mediante Sanctum y Swagger",
         "version": "1.0.0"
     },
